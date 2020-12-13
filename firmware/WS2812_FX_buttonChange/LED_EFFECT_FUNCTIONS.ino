@@ -9,7 +9,7 @@ void errorMode() {
   if (safeDelayWait(1000)) return;
 }
 
-void rainbow_fade() {                         //-m2-FADE ALL LEDS THROUGH HSV RAINBOW
+bool rainbow_fade() {                         //-m2-FADE ALL LEDS THROUGH HSV RAINBOW
   ihue++;
 
   if (ihue > 255) { ihue = 0; }
@@ -19,10 +19,12 @@ void rainbow_fade() {                         //-m2-FADE ALL LEDS THROUGH HSV RA
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void rainbow_loop() {                        //-m3-LOOP HSV RAINBOW
+bool rainbow_loop() {                        //-m3-LOOP HSV RAINBOW
   idex++;
   ihue = ihue + thisstep;
 
@@ -32,7 +34,9 @@ void rainbow_loop() {                        //-m3-LOOP HSV RAINBOW
   setPixelHSV(idex, ihue, thissat, 255);
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
 void random_burst() {                         //-m4-RANDOM INDEX/COLOR
@@ -42,10 +46,12 @@ void random_burst() {                         //-m4-RANDOM INDEX/COLOR
   setPixelHSV(idex, ihue, thissat, 255);
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void color_bounce() {                        //-m5-BOUNCE COLOR (SINGLE LED)
+bool color_bounce() {                        //-m5-BOUNCE COLOR (SINGLE LED)
   if (bouncedirection == 0) {
     idex = idex + 1;
     if (idex == LED_COUNT) {
@@ -70,10 +76,12 @@ void color_bounce() {                        //-m5-BOUNCE COLOR (SINGLE LED)
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void color_bounceFADE() {                    //-m6-BOUNCE COLOR (SIMPLE MULTI-LED FADE)
+bool color_bounceFADE() {                    //-m6-BOUNCE COLOR (SIMPLE MULTI-LED FADE)
   if (bouncedirection == 0) {
     idex = idex + 1;
     if (idex == LED_COUNT) {
@@ -117,10 +125,12 @@ void color_bounceFADE() {                    //-m6-BOUNCE COLOR (SIMPLE MULTI-LE
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void ems_lightsONE() {                    //-m7-EMERGENCY LIGHTS (TWO COLOR SINGLE LED)
+bool ems_lightsONE() {                    //-m7-EMERGENCY LIGHTS (TWO COLOR SINGLE LED)
   idex++;
   if (idex >= LED_COUNT) { idex = 0; }
   
@@ -139,10 +149,12 @@ void ems_lightsONE() {                    //-m7-EMERGENCY LIGHTS (TWO COLOR SING
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void ems_lightsALL() {                  //-m8-EMERGENCY LIGHTS (TWO COLOR SOLID)
+bool ems_lightsALL() {                  //-m8-EMERGENCY LIGHTS (TWO COLOR SOLID)
   idex++;
   if (idex >= LED_COUNT) { idex = 0; }
 
@@ -154,10 +166,12 @@ void ems_lightsALL() {                  //-m8-EMERGENCY LIGHTS (TWO COLOR SOLID)
   setPixelHSV(idexB, thathue, thissat, 255);
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void flicker() {                          //-m9-FLICKER EFFECT
+bool flicker() {                          //-m9-FLICKER EFFECT
   int random_bright = random(0, 255);
   int random_delay = random(10, 100);
   int random_bool = random(0, random_bright);
@@ -168,11 +182,13 @@ void flicker() {                          //-m9-FLICKER EFFECT
     }
 
     strip.show();
-    if (safeDelayWait(random_delay)) return;
+
+    if (safeDelayWait(random_delay)) return false;
+    return true;
   }
 }
 
-void pulse_one_color_all() {              //-m10-PULSE BRIGHTNESS ON ALL LEDS TO ONE COLOR
+bool pulse_one_color_all() {              //-m10-PULSE BRIGHTNESS ON ALL LEDS TO ONE COLOR
   if (bouncedirection == 0) {
     ibright++;
     if (ibright >= 255) {
@@ -192,10 +208,12 @@ void pulse_one_color_all() {              //-m10-PULSE BRIGHTNESS ON ALL LEDS TO
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void pulse_one_color_all_rev() {           //-m11-PULSE SATURATION ON ALL LEDS TO ONE COLOR
+bool pulse_one_color_all_rev() {           //-m11-PULSE SATURATION ON ALL LEDS TO ONE COLOR
   if (bouncedirection == 0) {
     isat++;
     if (isat >= 255) {
@@ -215,10 +233,12 @@ void pulse_one_color_all_rev() {           //-m11-PULSE SATURATION ON ALL LEDS T
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void fade_vertical() {                    //-m12-FADE 'UP' THE LOOP
+bool fade_vertical() {                    //-m12-FADE 'UP' THE LOOP
   idex++;
   if (idex > TOP_INDEX) { idex = 0; }
 
@@ -232,23 +252,12 @@ void fade_vertical() {                    //-m12-FADE 'UP' THE LOOP
   setPixelHSV(idexB, thishue, thissat, ibright);
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void random_red() {                       //QUICK 'N DIRTY RANDOMIZE TO GET CELL AUTOMATA STARTED
-  int temprand;
-
-  for (int i = 0; i < LED_COUNT; i++ ) {
-    temprand = random(0, 100);
-    byte red = (temprand > 50) ? 255 : 0;
-    setPixelRGB(i, red, 0, 0);
-  }
-
-  strip.show();
-  if (safeDelayWait(thisdelay)) return;
-}
-
-void radiation() {                   //-m16-SORT OF RADIATION SYMBOLISH-
+bool radiation() {                   //-m13-SORT OF RADIATION SYMBOLISH-
   int N3  = int(LED_COUNT / 3);
   int N6  = int(LED_COUNT / 6);
   int N12 = int(LED_COUNT / 12);
@@ -269,10 +278,12 @@ void radiation() {                   //-m16-SORT OF RADIATION SYMBOLISH-
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void color_loop_vardelay() {                    //-m17-COLOR LOOP (SINGLE LED) w/ VARIABLE DELAY
+bool color_loop_vardelay() {                    //-m14-COLOR LOOP (SINGLE LED) w/ VARIABLE DELAY
   idex++;
   if (idex > LED_COUNT) { idex = 0; }
 
@@ -288,10 +299,12 @@ void color_loop_vardelay() {                    //-m17-COLOR LOOP (SINGLE LED) w
   }
 
   strip.show();
-  if (safeDelayWait(t)) return;
+
+  if (safeDelayWait(t)) return false;
+  return true;
 }
 
-void white_temps() {                            //-m18-SHOW A SAMPLE OF BLACK BODY RADIATION COLOR TEMPERATURES
+bool white_temps() {                            //-m15-SHOW A SAMPLE OF BLACK BODY RADIATION COLOR TEMPERATURES
   int N9 = int(LED_COUNT / 9);
 
   for (int i = 0; i < LED_COUNT; i++ ) {
@@ -325,10 +338,12 @@ void white_temps() {                            //-m18-SHOW A SAMPLE OF BLACK BO
   }
 
   strip.show();
-  if (safeDelayWait(100)) return;
+
+  if (safeDelayWait(100)) return false;
+  return true;
 }
 
-void sin_bright_wave() {        //-m19-BRIGHTNESS SINE WAVE
+bool sin_bright_wave() {        //-m16-BRIGHTNESS SINE WAVE
   for (int i = 0; i < LED_COUNT; i++ ) {
     tcount = tcount + .1;
     if (tcount > 3.14) { tcount = 0.0; }
@@ -337,11 +352,14 @@ void sin_bright_wave() {        //-m19-BRIGHTNESS SINE WAVE
     setPixelHSV(i, thishue, thissat, ibright);
 
     strip.show();
-    if (safeDelayWait(thisdelay)) return;
+
+    if (safeDelayWait(thisdelay)) return false;
   }
+
+  return true;
 }
 
-void pop_horizontal() {        //-m20-POP FROM LEFT TO RIGHT UP THE RING
+bool pop_horizontal() {        //-m17-POP FROM LEFT TO RIGHT UP THE RING
   int ix;
 
   if (bouncedirection == 0) {
@@ -365,10 +383,12 @@ void pop_horizontal() {        //-m20-POP FROM LEFT TO RIGHT UP THE RING
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void quad_bright_curve() {      //-m21-QUADRATIC BRIGHTNESS CURVER
+bool quad_bright_curve() {      //-m18-QUADRATIC BRIGHTNESS CURVER
   int ax;
 
   for (int x = 0; x < LED_COUNT; x++ ) {
@@ -387,10 +407,12 @@ void quad_bright_curve() {      //-m21-QUADRATIC BRIGHTNESS CURVER
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void flame() {                                    //-m22-FLAMEISH EFFECT
+bool flame() {                                    //-m19-FLAMEISH EFFECT
   int idelay = random(0, 35);
   float hmin = 0.1; 
   float hmax = 45.0;
@@ -408,11 +430,14 @@ void flame() {                                    //-m22-FLAMEISH EFFECT
     setPixelRGB(TOP_INDEX, 255, 255, 255);
 
     strip.show();
-    if (safeDelayWait(idelay)) return;
+
+    if (safeDelayWait(idelay)) return false;
   }
+
+  return true;
 }
 
-void rainbow_vertical() {                        //-m23-RAINBOW 'UP' THE LOOP
+bool rainbow_vertical() {                        //-m20-RAINBOW 'UP' THE LOOP
   idex++;
   if (idex > TOP_INDEX) { idex = 0; }
 
@@ -426,10 +451,12 @@ void rainbow_vertical() {                        //-m23-RAINBOW 'UP' THE LOOP
   setPixelHSV(idexB, ihue, thissat, 255);
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void pacman() {                                  //-m24-REALLY TERRIBLE PACMAN CHOMPING EFFECT
+bool pacman() {                                  //-m21-REALLY TERRIBLE PACMAN CHOMPING EFFECT
   int s = int(LED_COUNT / 4);
   
   lcount++;
@@ -471,10 +498,12 @@ void pacman() {                                  //-m24-REALLY TERRIBLE PACMAN C
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void random_color_pop() {                         //-m25-RANDOM COLOR POP
+bool random_color_pop() {                         //-m22-RANDOM COLOR POP
   idex = random(0, LED_COUNT);
   ihue = random(0, 255);
 
@@ -482,10 +511,12 @@ void random_color_pop() {                         //-m25-RANDOM COLOR POP
   setPixelHSV(idex, ihue, thissat, 255);
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void ems_lightsSTROBE() {                  //-m26-EMERGENCY LIGHTS (STROBE LEFT/RIGHT)
+bool ems_lightsSTROBE() {                  //-m23-EMERGENCY LIGHTS (STROBE LEFT/RIGHT)
   int thishue = 0;
   int thathue = (thishue + 160) % 255;
 
@@ -494,9 +525,9 @@ void ems_lightsSTROBE() {                  //-m26-EMERGENCY LIGHTS (STROBE LEFT/
       setPixelHSV(i, thishue, thissat, 255);
     }
 
-    strip.show(); if (safeDelayWait(thisdelay)) return;
+    strip.show(); if (safeDelayWait(thisdelay)) return false;
     setStripHSV(0, 0, 0);
-    strip.show(); if (safeDelayWait(thisdelay)) return;
+    strip.show(); if (safeDelayWait(thisdelay)) return false;
   }
 
   for (int x = 0 ; x < 5; x++ ) {
@@ -504,13 +535,15 @@ void ems_lightsSTROBE() {                  //-m26-EMERGENCY LIGHTS (STROBE LEFT/
       setPixelHSV(i, thathue, thissat, 255);
     }
 
-    strip.show(); if (safeDelayWait(thisdelay)) return;
+    strip.show(); if (safeDelayWait(thisdelay)) return false;
     setStripHSV(0, 0, 0);
-    strip.show(); if (safeDelayWait(thisdelay)) return;
+    strip.show(); if (safeDelayWait(thisdelay)) return false;
   }
+
+  return true;
 }
 
-void rgb_propeller() {                           //-m27-RGB PROPELLER
+bool rgb_propeller() {                           //-m24-RGB PROPELLER
   idex++;
 
   int ghue = (thishue + 80) % 255;
@@ -530,10 +563,12 @@ void rgb_propeller() {                           //-m27-RGB PROPELLER
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-void kitt() {                                     //-m28-KNIGHT INDUSTIES 2000
+bool kitt() {                                     //-m25-KNIGHT INDUSTIES 2000
   int rand = random(0, TOP_INDEX);
 
   for (int i = 0; i < rand; i++ ) {
@@ -541,7 +576,7 @@ void kitt() {                                     //-m28-KNIGHT INDUSTIES 2000
     setPixelHSV(TOP_INDEX - i, thishue, thissat, 255);
 
     strip.show();
-    if (safeDelayWait(thisdelay / rand)) return;
+    if (safeDelayWait(thisdelay / rand)) return false;
   }
 
   for (int i = rand; i > 0; i-- ) {
@@ -549,24 +584,381 @@ void kitt() {                                     //-m28-KNIGHT INDUSTIES 2000
     setPixelHSV(TOP_INDEX - i, thishue, thissat, 0);
 
     strip.show();
-    if (safeDelayWait(thisdelay / rand)) return;
+    if (safeDelayWait(thisdelay / rand)) return false;
   }
+
+  return true;
 }
 
-void new_rainbow_loop() {                      //-m88-RAINBOW FADE FROM FAST_SPI2
+bool new_rainbow_loop() {                      //-m26-RAINBOW FADE FROM FAST_SPI2
   ihue -= 1;
 
   fill_rainbox(leds, LED_COUNT, ihue, 5);
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
+}
+
+//-m27-Плавное заполнение цветом
+bool colorWipe(byte red, byte green, byte blue, int SpeedDelay) {
+  for (uint16_t i = 0; i < LED_COUNT; i++) {
+    setPixelRGB(i, red, green, blue);
+
+    strip.show();
+    if (safeDelayWait(SpeedDelay)) return false;
+  }
+
+  return true;
+}
+
+//-m28-Бегающие светодиоды
+bool CylonBounce(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) {
+
+  for (int i = 0; i < LED_COUNT - EyeSize - 2; i++) {
+    setStripRGB(0, 0, 0);
+    strip.show();
+    setPixelRGB(i, red / 10, green / 10, blue / 10);
+
+    for (int j = 1; j <= EyeSize; j++) {
+      setPixelRGB(i + j, red, green, blue);
+    }
+
+    setPixelRGB(i + EyeSize + 1, red / 10, green / 10, blue / 10);
+
+    strip.show();
+    if (safeDelayWait(SpeedDelay)) return false;
+  }
+
+  if (safeDelayWait(ReturnDelay)) return false;
+
+  for (int i = LED_COUNT - EyeSize - 2; i > 0; i--) {
+    setStripRGB(0, 0, 0);
+    strip.show();
+
+    setPixelRGB(i, red / 10, green / 10, blue / 10);
+
+    for (int j = 1; j <= EyeSize; j++) {
+      setPixelRGB(i + j, red, green, blue);
+    }
+    setPixelRGB(i + EyeSize + 1, red / 10, green / 10, blue / 10);
+
+    strip.show();
+    if (safeDelayWait(SpeedDelay)) return false;
+  }
+
+  if (safeDelayWait(ReturnDelay)) return false;
+  return true;
+}
+
+//-m29-Линейный огонь
+bool Fire(int Cooling, int Sparking, int SpeedDelay) {
+  static byte heat[LED_COUNT];
+  int cooldown;
+
+  // Step 1.  Cool down every cell a little
+  for (int i = 0; i < LED_COUNT; i++) {
+    cooldown = random(0, ((Cooling * 10) / LED_COUNT) + 2);
+
+    if (cooldown > heat[i]) {
+      heat[i] = 0;
+    } else {
+      heat[i] = heat[i] - cooldown;
+    }
+  }
+
+  // Step 2.  Heat from each cell drifts 'up' and diffuses a little
+  for (int k = LED_COUNT - 1; k >= 2; k--) {
+    heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2]) / 3;
+  }
+
+  // Step 3.  Randomly ignite new 'sparks' near the bottom
+  if (random(255) < Sparking) {
+    int y = random(7);
+    heat[y] = heat[y] + random(160, 255);
+  }
+
+  // Step 4.  Convert heat to LED colors
+  for (int j = 0; j < LED_COUNT; j++) {
+    setPixelHeatColor(j, heat[j] );
+  }
+
+  strip.show();
+
+  if (safeDelayWait(SpeedDelay)) return false;
+  return true;
+}
+
+//-m31-Очень плавная вращающаяся радуга
+bool rainbowCycle(int SpeedDelay) {
+  byte *c;
+  uint16_t i, j;
+
+  for (j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
+    for (i = 0; i < LED_COUNT; i++) {
+      c = Wheel(((i * 256 / LED_COUNT) + j) & 255);
+      setPixelRGB(i, *c, *(c + 1), *(c + 2));
+
+      if (safeDelayWait(SpeedDelay)) return false;
+    }
+
+    strip.show();
+    if (safeDelayWait(SpeedDelay)) return false;
+  }
+
+  return true;
+}
+
+//-m32-TwinkleRandom
+bool TwinkleRandom(int Count, int SpeedDelay, boolean OnlyOne) {
+  setStripRGB(0, 0, 0);
+  strip.show();
+
+  for (int i = 0; i < Count; i++) {
+    setPixelRGB(random(LED_COUNT), random(0, 255), random(0, 255), random(0, 255));
+    strip.show();
+
+    if (safeDelayWait(SpeedDelay)) return false;
+
+    if (OnlyOne) {
+      setStripRGB(0, 0, 0);
+      strip.show();
+    }
+  }
+
+  if (safeDelayWait(SpeedDelay)) return false;
+  return true;
+}
+
+//-m33-RunningLights
+bool RunningLights(byte red, byte green, byte blue, int WaveDelay) {
+  int Position = 0;
+
+  for (int i = 0; i < LED_COUNT * 2; i++) {
+    Position++; // = 0; //Position + Rate;
+    for (int i = 0; i < LED_COUNT; i++) {
+      setPixelRGB(i, ((sin(i + Position) * 127 + 128) / 255) * red,
+                            ((sin(i + Position) * 127 + 128) / 255) * green,
+                            ((sin(i + Position) * 127 + 128) / 255) * blue);
+
+      if (safeDelayWait(WaveDelay)) return false;
+    }
+
+    strip.show();
+    if (safeDelayWait(WaveDelay)) return false;
+  }
+
+  return true;
+}
+
+//-m34-Sparkle
+bool Sparkle(byte red, byte green, byte blue, int SpeedDelay) {
+  int Pixel = random(LED_COUNT);
+
+  setPixelRGB(Pixel, red, green, blue);
+  strip.show();
+
+  if (safeDelayWait(SpeedDelay)) return false;
+  setPixelRGB(Pixel, 0, 0, 0);
+
+  return true;
+}
+
+//-m35-SnowSparkle
+bool SnowSparkle(byte red, byte green, byte blue, int SparkleDelay, int SpeedDelay) {
+  setStripRGB(red, green, blue);
+  strip.show();
+
+  int Pixel = random(LED_COUNT);
+  setPixelRGB(Pixel, 0xff, 0xff, 0xff);
+  
+  strip.show();
+  if (safeDelayWait(SparkleDelay)) return false;
+
+  setPixelRGB(Pixel, red, green, blue);
+
+  strip.show();
+  if (safeDelayWait(SpeedDelay)) return false;
+
+  return true;
+}
+
+//-m36-TheaterChase
+bool theaterChase(byte red, byte green, byte blue, int SpeedDelay) {
+  for (int j = 0; j < 10; j++) { //do 10 cycles of chasing
+    for (int q = 0; q < 3; q++) {
+      for (int i = 0; i < LED_COUNT; i = i + 3) {
+        setPixelRGB(i + q, red, green, blue); //turn every third pixel on
+      }
+
+      strip.show();
+      if (safeDelayWait(SpeedDelay)) return false;
+
+      for (int i = 0; i < LED_COUNT; i = i + 3) {
+        setPixelRGB(i + q, 0, 0, 0);    //turn every third pixel off
+      }
+    }
+  }
+
+  return true;
+}
+
+//-m37-TheaterChaseRainbow
+bool theaterChaseRainbow(int SpeedDelay) {
+  byte *c;
+
+  for (int j = 0; j < 256; j++) {   // cycle all 256 colors in the wheel
+    for (int q = 0; q < 3; q++) {
+      for (int i = 0; i < LED_COUNT; i = i + 3) {
+        c = Wheel( (i + j) % 255);
+        setPixelRGB(i + q, *c, *(c + 1), *(c + 2)); //turn every third pixel on
+      }
+
+      strip.show();
+      if (safeDelayWait(SpeedDelay)) return false;
+
+      for (int i = 0; i < LED_COUNT; i = i + 3) {
+        setPixelRGB(i + q, 0, 0, 0);    //turn every third pixel off
+      }
+    }
+  }
+
+  return true;
+}
+
+//-m38-Strobe
+bool Strobe(byte red, byte green, byte blue, int StrobeCount, int FlashDelay, int EndPause) {
+  for (int j = 0; j < StrobeCount; j++) {
+    setStripRGB(red, green, blue);
+    strip.show();
+
+    if (safeDelayWait(FlashDelay)) return false;
+
+    setStripRGB(0, 0, 0);
+
+    strip.show();
+    if (safeDelayWait(FlashDelay)) return false;
+  }
+
+  if (safeDelayWait(EndPause)) return false;
+  return true;
+}
+
+//-m39-BouncingBalls
+bool BouncingBalls(byte red, byte green, byte blue, int BallCount) {
+  float Gravity = -9.81;
+  int StartHeight = 1;
+
+  float Height[BallCount];
+  float ImpactVelocityStart = sqrt( -2 * Gravity * StartHeight );
+  float ImpactVelocity[BallCount];
+  float TimeSinceLastBounce[BallCount];
+  int   Position[BallCount];
+  long  ClockTimeSinceLastBounce[BallCount];
+  float Dampening[BallCount];
+
+  for (int i = 0 ; i < BallCount ; i++) {
+    ClockTimeSinceLastBounce[i] = millis();
+    Height[i] = StartHeight;
+    Position[i] = 0;
+    ImpactVelocity[i] = ImpactVelocityStart;
+    TimeSinceLastBounce[i] = 0;
+    Dampening[i] = 0.90 - float(i) / pow(BallCount, 2);
+  }
+
+  while (true) {
+    if (breakFlag) { breakFlag = false; return false; }
+
+    for (int i = 0 ; i < BallCount ; i++) {
+      TimeSinceLastBounce[i] = millis() - ClockTimeSinceLastBounce[i];
+      Height[i] = 0.5 * Gravity * pow(TimeSinceLastBounce[i] / 1000 , 2.0) + ImpactVelocity[i] * TimeSinceLastBounce[i] / 1000;
+
+      if (Height[i] < 0) {
+        Height[i] = 0;
+        ImpactVelocity[i] = Dampening[i] * ImpactVelocity[i];
+        ClockTimeSinceLastBounce[i] = millis();
+
+        if (ImpactVelocity[i] < 0.01) {
+          ImpactVelocity[i] = ImpactVelocityStart;
+        }
+      }
+
+      Position[i] = round( Height[i] * (LED_COUNT - 1) / StartHeight);
+    }
+
+    for (int i = 0 ; i < BallCount ; i++) {
+      setPixelRGB(Position[i], red, green, blue);
+    }
+
+    strip.show();
+
+    setStripRGB(0, 0, 0);
+    strip.show();
+  }
+
+  return true;
+}
+
+//-------------------------------BouncingColoredBalls---------------------------------------
+bool BouncingColoredBalls(int BallCount, byte colors[][3]) {
+  float Gravity = -9.81;
+  int StartHeight = 1;
+
+  float Height[BallCount];
+  float ImpactVelocityStart = sqrt(-2 * Gravity * StartHeight);
+  float ImpactVelocity[BallCount];
+  float TimeSinceLastBounce[BallCount];
+  int   Position[BallCount];
+  long  ClockTimeSinceLastBounce[BallCount];
+  float Dampening[BallCount];
+
+  for (int i = 0 ; i < BallCount ; i++) {
+    ClockTimeSinceLastBounce[i] = millis();
+    Height[i] = StartHeight;
+    Position[i] = 0;
+    ImpactVelocity[i] = ImpactVelocityStart;
+    TimeSinceLastBounce[i] = 0;
+    Dampening[i] = 0.90 - float(i) / pow(BallCount, 2);
+  }
+
+  while (true) {
+    if (breakFlag) { breakFlag = false; return false; }
+    
+    for (int i = 0 ; i < BallCount ; i++) {
+      TimeSinceLastBounce[i] = millis() - ClockTimeSinceLastBounce[i];
+      Height[i] = 0.5 * Gravity * pow(TimeSinceLastBounce[i] / 1000 , 2.0) + ImpactVelocity[i] * TimeSinceLastBounce[i] / 1000;
+
+      if (Height[i] < 0) {
+        Height[i] = 0;
+        ImpactVelocity[i] = Dampening[i] * ImpactVelocity[i];
+        ClockTimeSinceLastBounce[i] = millis();
+
+        if (ImpactVelocity[i] < 0.01) {
+          ImpactVelocity[i] = ImpactVelocityStart;
+        }
+      }
+
+      Position[i] = round( Height[i] * (LED_COUNT - 1) / StartHeight);
+    }
+
+    for (int i = 0 ; i < BallCount ; i++) {
+      setPixelRGB(Position[i], colors[i][0], colors[i][1], colors[i][2]);
+    }
+    strip.show();
+
+    setStripRGB(0, 0, 0);
+    strip.show();
+  }
+
+  return true;
 }
 
 // --- Demo modes
 
 void demo_favs() {
   waitTime = millis();
-
+  
   for (int i = 0; i < num_modes; i++) {
     thisdelay = DEMO_FAVS_DELAY;
     while (!safeDelayAndBreak(thisdelay)) {
@@ -576,7 +968,7 @@ void demo_favs() {
 }
 
 void demo_modeA() {
-  uint32_t demoDelay = DEMO_DELAY;
+  uint32_t demoDelay = 30000;
 
   thisdelay = 20; 
   thisstep = 10; 
@@ -637,8 +1029,6 @@ void demo_modeA() {
   while(!safeDelayAndBreak(demoDelay)) {
     fade_vertical();
   }
-
-  random_red();
 
   setStripRGB(0, 0, 0); ; 
   strip.show();
@@ -776,107 +1166,6 @@ void demo_modeB() {
   #endif //IS_ADDITIONAL_FX
 }
 
-//-----------------------------плавное заполнение цветом-----------------------------------------
-void colorWipe(byte red, byte green, byte blue, int SpeedDelay) {
-  for (uint16_t i = 0; i < LED_COUNT; i++) {
-    setPixelRGB(i, red, green, blue);
-
-    strip.show();
-    if (safeDelayWait(SpeedDelay)) return;
-  }
-}
-//-----------------------------------бегающие светодиоды-----------------------------------
-void CylonBounce(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) {
-
-  for (int i = 0; i < LED_COUNT - EyeSize - 2; i++) {
-    setStripRGB(0, 0, 0);
-    strip.show();
-    setPixelRGB(i, red / 10, green / 10, blue / 10);
-
-    for (int j = 1; j <= EyeSize; j++) {
-      setPixelRGB(i + j, red, green, blue);
-    }
-
-    setPixelRGB(i + EyeSize + 1, red / 10, green / 10, blue / 10);
-
-    strip.show();
-    if (safeDelayWait(SpeedDelay)) return;
-  }
-
-  if (safeDelayWait(ReturnDelay)) return;
-
-  for (int i = LED_COUNT - EyeSize - 2; i > 0; i--) {
-    setStripRGB(0, 0, 0);
-    strip.show();
-
-    setPixelRGB(i, red / 10, green / 10, blue / 10);
-
-    for (int j = 1; j <= EyeSize; j++) {
-      setPixelRGB(i + j, red, green, blue);
-    }
-    setPixelRGB(i + EyeSize + 1, red / 10, green / 10, blue / 10);
-
-    strip.show();
-    if (safeDelayWait(SpeedDelay)) return;
-  }
-
-  if (safeDelayWait(ReturnDelay)) return;
-}
-
-//---------------------------------линейный огонь-------------------------------------
-void Fire(int Cooling, int Sparking, int SpeedDelay) {
-  static byte heat[LED_COUNT];
-  int cooldown;
-
-  // Step 1.  Cool down every cell a little
-  for (int i = 0; i < LED_COUNT; i++) {
-    cooldown = random(0, ((Cooling * 10) / LED_COUNT) + 2);
-
-    if (cooldown > heat[i]) {
-      heat[i] = 0;
-    } else {
-      heat[i] = heat[i] - cooldown;
-    }
-  }
-
-  // Step 2.  Heat from each cell drifts 'up' and diffuses a little
-  for (int k = LED_COUNT - 1; k >= 2; k--) {
-    heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2]) / 3;
-  }
-
-  // Step 3.  Randomly ignite new 'sparks' near the bottom
-  if (random(255) < Sparking) {
-    int y = random(7);
-    heat[y] = heat[y] + random(160, 255);
-  }
-
-  // Step 4.  Convert heat to LED colors
-  for (int j = 0; j < LED_COUNT; j++) {
-    setPixelHeatColor(j, heat[j] );
-  }
-
-  strip.show();
-  if (safeDelayWait(SpeedDelay)) return;
-}
-
-void setPixelHeatColor (int Pixel, byte temperature) {
-  // Scale 'heat' down from 0-255 to 0-191
-  byte t192 = round((temperature / 255.0) * 191);
-
-  // calculate ramp up from
-  byte heatramp = t192 & 0x3F; // 0..63
-  heatramp <<= 2; // scale up to 0..252
-
-  // figure out which third of the spectrum we're in:
-  if ( t192 > 0x80) {                    // hottest
-    setPixelRGB(Pixel, 255, 255, heatramp);
-  } else if ( t192 > 0x40 ) {            // middle
-    setPixelRGB(Pixel, 255, heatramp, 0);
-  } else {                               // coolest
-    setPixelRGB(Pixel, heatramp, 0, 0);
-  }
-}
-
 //-------------------------------newKITT---------------------------------------
 void NewKITT(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, int ReturnDelay) {
   RightToLeft(red, green, blue, EyeSize, SpeedDelay, ReturnDelay);
@@ -971,22 +1260,8 @@ void RightToLeft(byte red, byte green, byte blue, int EyeSize, int SpeedDelay, i
 }
 
 //-------------------------------newKITT---------------------------------------
-void rainbowCycle(int SpeedDelay) {
-  byte *c;
-  uint16_t i, j;
 
-  for (j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
-    for (i = 0; i < LED_COUNT; i++) {
-      c = Wheel(((i * 256 / LED_COUNT) + j) & 255);
-      setPixelRGB(i, *c, *(c + 1), *(c + 2));
-
-      if (safeDelayWait(SpeedDelay)) return;
-    }
-
-    strip.show();
-    if (safeDelayWait(SpeedDelay)) return;
-  }
-}
+#pragma mark - Helpers
 
 byte * Wheel(byte WheelPos) {
   static byte c[3];
@@ -1010,230 +1285,20 @@ byte * Wheel(byte WheelPos) {
   return c;
 }
 
-//-------------------------------TwinkleRandom---------------------------------------
-void TwinkleRandom(int Count, int SpeedDelay, boolean OnlyOne) {
-  setStripRGB(0, 0, 0);
-    strip.show();
+void setPixelHeatColor (int Pixel, byte temperature) {
+  // Scale 'heat' down from 0-255 to 0-191
+  byte t192 = round((temperature / 255.0) * 191);
 
-  for (int i = 0; i < Count; i++) {
-    setPixelRGB(random(LED_COUNT), random(0, 255), random(0, 255), random(0, 255));
-    strip.show();
+  // calculate ramp up from
+  byte heatramp = t192 & 0x3F; // 0..63
+  heatramp <<= 2; // scale up to 0..252
 
-    if (safeDelayWait(SpeedDelay)) return;
-
-    if (OnlyOne) {
-      setStripRGB(0, 0, 0);
-      strip.show();
-    }
-  }
-
-  if (safeDelayWait(SpeedDelay)) return;
-}
-
-//-------------------------------RunningLights---------------------------------------
-void RunningLights(byte red, byte green, byte blue, int WaveDelay) {
-  int Position = 0;
-
-  for (int i = 0; i < LED_COUNT * 2; i++) {
-    Position++; // = 0; //Position + Rate;
-    for (int i = 0; i < LED_COUNT; i++) {
-      setPixelRGB(i, ((sin(i + Position) * 127 + 128) / 255) * red,
-                            ((sin(i + Position) * 127 + 128) / 255) * green,
-                            ((sin(i + Position) * 127 + 128) / 255) * blue);
-
-      if (safeDelayWait(WaveDelay)) return;
-    }
-
-    strip.show();
-    if (safeDelayWait(WaveDelay)) return;
-  }
-}
-
-//-------------------------------Sparkle---------------------------------------
-void Sparkle(byte red, byte green, byte blue, int SpeedDelay) {
-  int Pixel = random(LED_COUNT);
-
-  setPixelRGB(Pixel, red, green, blue);
-  strip.show();
-
-  if (safeDelayWait(SpeedDelay)) return;
-  setPixelRGB(Pixel, 0, 0, 0);
-}
-
-//-------------------------------SnowSparkle---------------------------------------
-void SnowSparkle(byte red, byte green, byte blue, int SparkleDelay, int SpeedDelay) {
-  setStripRGB(red, green, blue);
-  strip.show();
-
-  int Pixel = random(LED_COUNT);
-  setPixelRGB(Pixel, 0xff, 0xff, 0xff);
-  
-  strip.show();
-  if (safeDelayWait(SparkleDelay)) return;
-
-  setPixelRGB(Pixel, red, green, blue);
-
-  strip.show();
-  if (safeDelayWait(SpeedDelay)) return;
-}
-
-//-------------------------------theaterChase---------------------------------------
-void theaterChase(byte red, byte green, byte blue, int SpeedDelay) {
-  for (int j = 0; j < 10; j++) { //do 10 cycles of chasing
-    for (int q = 0; q < 3; q++) {
-      for (int i = 0; i < LED_COUNT; i = i + 3) {
-        setPixelRGB(i + q, red, green, blue); //turn every third pixel on
-      }
-
-      strip.show();
-      if (safeDelayWait(SpeedDelay)) return;
-
-      for (int i = 0; i < LED_COUNT; i = i + 3) {
-        setPixelRGB(i + q, 0, 0, 0);    //turn every third pixel off
-      }
-    }
-  }
-}
-
-//-------------------------------theaterChaseRainbow---------------------------------------
-void theaterChaseRainbow(int SpeedDelay) {
-  byte *c;
-
-  for (int j = 0; j < 256; j++) {   // cycle all 256 colors in the wheel
-    for (int q = 0; q < 3; q++) {
-      for (int i = 0; i < LED_COUNT; i = i + 3) {
-        c = Wheel( (i + j) % 255);
-        setPixelRGB(i + q, *c, *(c + 1), *(c + 2)); //turn every third pixel on
-      }
-
-      strip.show();
-      if (safeDelayWait(SpeedDelay)) return;
-
-      for (int i = 0; i < LED_COUNT; i = i + 3) {
-        setPixelRGB(i + q, 0, 0, 0);    //turn every third pixel off
-      }
-    }
-  }
-}
-
-//-------------------------------Strobe---------------------------------------
-void Strobe(byte red, byte green, byte blue, int StrobeCount, int FlashDelay, int EndPause) {
-  for (int j = 0; j < StrobeCount; j++) {
-    setStripRGB(red, green, blue);
-    strip.show();
-
-    if (safeDelayWait(FlashDelay)) return;
-
-    setStripRGB(0, 0, 0);
-
-    strip.show();
-    if (safeDelayWait(FlashDelay)) return;
-  }
-
-  if (safeDelayWait(EndPause)) return;
-}
-
-//-------------------------------BouncingBalls---------------------------------------
-void BouncingBalls(byte red, byte green, byte blue, int BallCount) {
-  float Gravity = -9.81;
-  int StartHeight = 1;
-
-  float Height[BallCount];
-  float ImpactVelocityStart = sqrt( -2 * Gravity * StartHeight );
-  float ImpactVelocity[BallCount];
-  float TimeSinceLastBounce[BallCount];
-  int   Position[BallCount];
-  long  ClockTimeSinceLastBounce[BallCount];
-  float Dampening[BallCount];
-
-  for (int i = 0 ; i < BallCount ; i++) {
-    ClockTimeSinceLastBounce[i] = millis();
-    Height[i] = StartHeight;
-    Position[i] = 0;
-    ImpactVelocity[i] = ImpactVelocityStart;
-    TimeSinceLastBounce[i] = 0;
-    Dampening[i] = 0.90 - float(i) / pow(BallCount, 2);
-  }
-
-  while (true) {
-    if (breakFlag) { breakFlag = false; return; }
-
-    for (int i = 0 ; i < BallCount ; i++) {
-      TimeSinceLastBounce[i] = millis() - ClockTimeSinceLastBounce[i];
-      Height[i] = 0.5 * Gravity * pow(TimeSinceLastBounce[i] / 1000 , 2.0) + ImpactVelocity[i] * TimeSinceLastBounce[i] / 1000;
-
-      if (Height[i] < 0) {
-        Height[i] = 0;
-        ImpactVelocity[i] = Dampening[i] * ImpactVelocity[i];
-        ClockTimeSinceLastBounce[i] = millis();
-
-        if (ImpactVelocity[i] < 0.01) {
-          ImpactVelocity[i] = ImpactVelocityStart;
-        }
-      }
-
-      Position[i] = round( Height[i] * (LED_COUNT - 1) / StartHeight);
-    }
-
-    for (int i = 0 ; i < BallCount ; i++) {
-      setPixelRGB(Position[i], red, green, blue);
-    }
-
-    strip.show();
-
-    setStripRGB(0, 0, 0);
-    strip.show();
-  }
-}
-
-//-------------------------------BouncingColoredBalls---------------------------------------
-void BouncingColoredBalls(int BallCount, byte colors[][3]) {
-  float Gravity = -9.81;
-  int StartHeight = 1;
-
-  float Height[BallCount];
-  float ImpactVelocityStart = sqrt(-2 * Gravity * StartHeight);
-  float ImpactVelocity[BallCount];
-  float TimeSinceLastBounce[BallCount];
-  int   Position[BallCount];
-  long  ClockTimeSinceLastBounce[BallCount];
-  float Dampening[BallCount];
-
-  for (int i = 0 ; i < BallCount ; i++) {
-    ClockTimeSinceLastBounce[i] = millis();
-    Height[i] = StartHeight;
-    Position[i] = 0;
-    ImpactVelocity[i] = ImpactVelocityStart;
-    TimeSinceLastBounce[i] = 0;
-    Dampening[i] = 0.90 - float(i) / pow(BallCount, 2);
-  }
-
-  while (true) {
-    if (breakFlag) { breakFlag = false; return; }
-    
-    for (int i = 0 ; i < BallCount ; i++) {
-      TimeSinceLastBounce[i] = millis() - ClockTimeSinceLastBounce[i];
-      Height[i] = 0.5 * Gravity * pow(TimeSinceLastBounce[i] / 1000 , 2.0) + ImpactVelocity[i] * TimeSinceLastBounce[i] / 1000;
-
-      if (Height[i] < 0) {
-        Height[i] = 0;
-        ImpactVelocity[i] = Dampening[i] * ImpactVelocity[i];
-        ClockTimeSinceLastBounce[i] = millis();
-
-        if (ImpactVelocity[i] < 0.01) {
-          ImpactVelocity[i] = ImpactVelocityStart;
-        }
-      }
-
-      Position[i] = round( Height[i] * (LED_COUNT - 1) / StartHeight);
-    }
-
-    for (int i = 0 ; i < BallCount ; i++) {
-      setPixelRGB(Position[i], colors[i][0], colors[i][1], colors[i][2]);
-    }
-    strip.show();
-
-    setStripRGB(0, 0, 0);
-    strip.show();
+  // figure out which third of the spectrum we're in:
+  if ( t192 > 0x80) {                    // hottest
+    setPixelRGB(Pixel, 255, 255, heatramp);
+  } else if ( t192 > 0x40 ) {            // middle
+    setPixelRGB(Pixel, 255, heatramp, 0);
+  } else {                               // coolest
+    setPixelRGB(Pixel, heatramp, 0, 0);
   }
 }

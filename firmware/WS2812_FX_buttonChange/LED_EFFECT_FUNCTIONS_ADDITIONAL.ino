@@ -2,8 +2,9 @@
 //----------------------Using the ledsX variable----------------------
 
 #if IS_ADDITIONAL_FX
-//-m13-1D CELLULAR AUTOMATA - RULE 30 (RED FOR NOW)
-void rule30() {
+
+//-m101-1D CELLULAR AUTOMATA - RULE 30 (RED FOR NOW)
+bool rule30() {
   copy_led_array();
   
   if (bouncedirection == 0) {
@@ -46,11 +47,13 @@ void rule30() {
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+  if (safeDelayWait(thisdelay)) return false;
+
+  return true;
 }
 
-//-m14-RANDOM MARCH CCW
-void random_march() {
+//-m102-RANDOM MARCH CCW
+bool random_march() {
   copy_led_array();
   int iCCW;
   setPixelHSV(0, random(0, 255), 255, 255);
@@ -61,11 +64,13 @@ void random_march() {
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-//-m15-R,W,B MARCH CCW
-void rwb_march() {
+//-m103-R,W,B MARCH CCW
+bool rwb_march() {
   copy_led_array();
   int iCCW;
 
@@ -90,10 +95,12 @@ void rwb_march() {
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-//-m29-ONE LINE MATRIX
+//-m104-ONE LINE MATRIX
 void matrix() {
   copy_led_array();
   int rand = random(0, 100);
@@ -109,11 +116,13 @@ void matrix() {
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-//-m50-MARCH STRIP CW
-void strip_march_cw() {
+//-m105-MARCH STRIP CW
+bool strip_march_cw() {
   copy_led_array();
   int iCW;
 
@@ -123,11 +132,13 @@ void strip_march_cw() {
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
-//-m51-MARCH STRIP CCW
-void strip_march_ccw() {
+//-m106-MARCH STRIP CCW
+bool strip_march_ccw() {
   copy_led_array();
   int iCCW;
 
@@ -137,7 +148,9 @@ void strip_march_ccw() {
   }
 
   strip.show();
-  if (safeDelayWait(thisdelay)) return;
+
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
 #pragma mark - Helpers
@@ -160,6 +173,20 @@ void copy_led_array() {
     ledsX[i][2] = led.b;
   #endif // COLOR_DEBTH
   }
+}
+
+bool random_red() {                       //QUICK 'N DIRTY RANDOMIZE TO GET CELL AUTOMATA STARTED
+  int temprand;
+
+  for (int i = 0; i < LED_COUNT; i++ ) {
+    temprand = random(0, 100);
+    byte red = (temprand > 50) ? 255 : 0;
+    setPixelRGB(i, red, 0, 0);
+  }
+
+  strip.show();
+  if (safeDelayWait(thisdelay)) return false;
+  return true;
 }
 
 #endif //IS_ADDITIONAL_FX
